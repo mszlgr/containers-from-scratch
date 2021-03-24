@@ -12,7 +12,7 @@ Virtual interfaces when namespace is destroyed are also destroyed (with existign
 Docker creates ns links in `/var/run/docker/netns`. To use them with `ip netns` we need to mount them in `/var/run/netns`, where they are expected by `ip netns`.
 ```
 docker_ns_path=$(docker inspect -f '{{.NetworkSettings.SandboxKey}}' 5e5fb43af81a)
-ln -sfT $docker_ns_path /var/run/netns/docker_ns   or    mount --bind $docker_ns_path /var/run/netns/docker_ns
+ln -s $docker_ns_path /var/run/netns/docker_ns   or    mount --bind $docker_ns_path /var/run/netns/docker_ns # TODO - this works only once for given ns - not able to add again same ns
 ip netns exec docker_ns bash
 ip netns exec docker_ns ip -4 a
 ```
