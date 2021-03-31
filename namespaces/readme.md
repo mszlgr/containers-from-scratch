@@ -1,4 +1,4 @@
-## Linux namespaces
+# Linux namespaces
 Namespace lives only if there is any reference to it inode. On process creation links to all process namespaces are created in `/proc/<pid>/ns/{mnt,net,pid,uts,ipc,user,cgroup}`.
 Processes inherits namespaces from parent on `fork()`, on `clone()` it is possible to pass flags that would cause kernel to create new namespace of required type for new process.
 
@@ -19,7 +19,7 @@ Syscalls involved in namespaces management:
 * `cgroup` - `CLONE_NEWCGROUP`
 
 
-# shell utils
+## shell utils
 `lsns` - iterates over `/proc/<pid>` and runs `stat()` on `ns/{mnt,net,pid,uts,ipc,user,cgroup}` to get inode that is a kernel handle and namespace identifier.
 
 `unshare ` - calls `unshare(ns)` where ns is list of passed namespaces and after that `execve()` with command passed
