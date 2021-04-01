@@ -24,4 +24,4 @@ Syscalls involved in namespaces management:
 
 `unshare ` - calls `unshare(ns)` where ns is list of passed namespaces and after that `execve()` with command passed
 
-`nsenter --uts=/proc/$$/ns/uts` - calls `setns()` using given namespace files
+`nsenter` - calls `setns()` using given namespace files descriptors - eg. `nsenter --uts=/proc/123/ns/uts` or it can lookup proc path using just PID `nsenter --target=123 --uts`
