@@ -2,7 +2,7 @@
 Crerating pid namespace require root/CAP_SYS_ADMIN. 
 
 clone()
-```
+```c
 #define _GNU_SOURCE
 #include <sched.h> // clone, CLONE_NEWPID
 #include <unistd.h> // getpid
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 ```
 
 unshare() + fork()
-```
+```c
 #define _GNU_SOURCE
 #include <sched.h> // CLONE_NEWPID
 #include <unistd.h> // fork, getpid
