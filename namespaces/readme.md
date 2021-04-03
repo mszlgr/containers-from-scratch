@@ -25,3 +25,8 @@ Syscalls involved in namespaces management:
 `unshare ` - calls `unshare(ns)` where ns is list of passed namespaces and after that `execve()` with command passed
 
 `nsenter` - calls `setns()` using given namespace files descriptors - eg. `nsenter --uts=/proc/123/ns/uts` or it can lookup proc path using just PID `nsenter --target=123 --uts`
+
+## required privileges
+Creating all but user namespace require running process with effective root or setting `CAP_SYS_ADMIN` capability.
+
+`sudo ./a.out` or `sudo setcap 'cap_sys_admin+ep' ./a.out; ./a.out`
