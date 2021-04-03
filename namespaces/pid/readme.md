@@ -1,25 +1,7 @@
 # pid namespace
 Crerating/moving process into pid namespace make kernel to comunicate with proccess using separate set of process identifiers (via calls like `wait()`, `kill()`, `getpid()`, ...). 
 
-clone()
-```c
-#define _GNU_SOURCE
-#include <sched.h> // clone, CLONE_NEWPID
-#include <unistd.h> // getpid
-#include <sys/wait.h> // wait
-#include <stdio.h> // printf
-
-static char child_stack[10240];
-int childFunc(void *arg) {printf("PID child: %ld\n", (long) getpid());}
-
-int main(int argc, char *argv[]) {
-    int child_pid = clone(childFunc, child_stack + 10240, CLONE_NEWPID | SIGCHLD, NULL);
-    printf("PID returned by clone(): %ld\n", (long) child_pid);
-    wait(NULL);
-}
-```
-
-unshare() + fork()
+## example
 ```c
 #define _GNU_SOURCE
 #include <sched.h> // CLONE_NEWPID
@@ -29,13 +11,10 @@ unshare() + fork()
 
 int main(int argc, char *argv[]) {
     printf("getpid(): %ld\n", (long) getpid());
-    int p = fork();
-    printf("fork(): %d, getpid(): %d\n", p, getpid());
-    if (p == 0) {return 0;} else { wait(NULL);}
-
     printf("unshare(): %ld\n", (long) unshare(CLONE_NEWPID));
-    p = fork();
+    int p = fork();
     printf("fork(): %d, getpid(): %d\n", p, getpid());
     if (p > 0) {wait(NULL);}
 }
 ```
+## /proc/ and pid namespace
