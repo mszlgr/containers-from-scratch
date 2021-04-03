@@ -1,5 +1,5 @@
 # pid namespace
-Crerating pid namespace require root/CAP_SYS_ADMIN. 
+Crerating/moving process into pid namespace make kernel to comunicate with proccess using separate set of process identifiers (via calls like `wait()`, `kill()`, `getpid()`, ...). 
 
 clone()
 ```c
