@@ -30,3 +30,33 @@ Syscalls involved in namespaces management:
 Creating all but user namespace require running process with effective root or setting `CAP_SYS_ADMIN` capability.
 
 `sudo ./a.out` or `sudo setcap 'cap_sys_admin+ep' ./a.out; ./a.out`
+
+## joining namespace / exec
+```bash
+$ hostname main; uname -n
+main
+$ unshare --uts
+$ hostname modified; uname -n
+modified
+$ touch /tmp/uts; mount --bind /proc/$$/ns/uts /tmp/uts
+$ exit
+$ uname -n
+main
+$ nsenter --uts=/tmp/uts; uname -n
+modified
+$ unmount /tmp/uts
+```
+
+When we run `docker exec` in shell `docker cli` is sending http request to `dockerd` which then sends request to `containerd-shim` which calls
+```bash
+$ docker exec 9523c27424e4 ls
+...
+$ strace -f -p $(pidof containerd-shim) 2>&1 | grep -e openat -e setns -e execve
+...
+openat(AT_FDCWD, "/proc/13294/ns/mnt", O_RDONLY) = 12
+...
+setns(12, CLONE_NEWNS)      = 0
+...
+execve("/bin/ls", ["ls"], 0xc000157ba0 /* 3 vars */ <unfinished ...>
+...
+```
