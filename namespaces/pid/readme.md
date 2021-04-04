@@ -28,7 +28,7 @@ $ ps
       1 pts/1    00:00:00 bash
      12 pts/1    00:00:00 ps
 ```
-# init proccess
+## init proccess
 First process started in namespace - using `clone(NEW_NSPID)` or `fork()` by process that called `unshare()` or `setns()` besomes namespace init process (pid 1). This make it:
 * recieve `SIGCHLD` of all orphant processes in namespace
 * processes in namespace are not allowed to send signals to it
