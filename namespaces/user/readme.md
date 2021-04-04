@@ -46,3 +46,6 @@ execve("/bin/bash", ["-bash"], 0x7ffe7cfe2940 /* 35 vars */) = 0
 
 If process want to set user mappings in need to do it before calling `execve()`. That is because when a process with non-zero user IDs performs an `execve()`, the process's capability sets are cleared.
 In effect even calling `unshare -U` as a root we are not able to modify own `/proc/self/uid_map` because we are runnign as 65534 (default from `/proc/sys/kernel/overflowuid`) and we lost all capabilities.
+
+## combining user namespaces with other namespaces
+User namespaces are the only one that can be started without root rights. If proper root user mapping introduced for new namespaces non-privileged user can start other namespaces from user namespace. Access rights in those namespaces are executed in reference to user ids from namespace that they were created. That means that non-root host user that is root in namespace can start from it mount namespace and mount/unmount any device or start uts namespace and modify hostname.
