@@ -1,3 +1,6 @@
+# network namespaces
+Network namespaces provide separation of whole networking stack, network interfaces, iptable rules...
+
 ## interfaces
 Physical interface can live only in one namespace. When one that it is in is destroyed it will be moved to initial network namespace.
 
