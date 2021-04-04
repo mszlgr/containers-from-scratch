@@ -6,7 +6,7 @@ Virtual interfaces when namespace is destroyed are also destroyed (with existign
 ## ip netns
 `ip netns list` - `open("/var/run/netns")` and lists all namespaces + socket communication with ???
 
-`ip netns add newns` - `open("/var/run/netns/newns", O_RDONLY|O_CREAT|O_EXCL, 000)` + `unshare(CLONE_NEWNET)` + `mount("/proc/self/ns/net", "/var/run/netns/ns1"...)`
+`ip netns add newns` - `open("/var/run/netns/newns", O_RDONLY|O_CREAT|O_EXCL, 000)` + `unshare(CLONE_NEWNET)` + `mount("/proc/self/ns/net", "/var/run/netns/newns"...)`
 
 ## docker
 Docker creates ns links in `/var/run/docker/netns`. To use them with `ip netns` we need to mount them in `/var/run/netns`, where they are expected by `ip netns`.
