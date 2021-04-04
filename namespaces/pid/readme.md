@@ -18,3 +18,12 @@ int main(int argc, char *argv[]) {
 }
 ```
 ## /proc/ and pid namespace
+Tools like `ps` and `top` reads process information from procfs mounted at `/proc`. It needs to be remounted to be able to see process struct inside on new namespace. This can be done using `chroot` or mount namespace.
+```bash
+$ unshare -fork --pid --mnt
+$ umount -l /proc; mount -t proc proc /proc
+$ ps
+    PID TTY          TIME CMD
+      1 pts/1    00:00:00 bash
+     12 pts/1    00:00:00 ps
+```
