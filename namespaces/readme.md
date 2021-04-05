@@ -31,6 +31,26 @@ Creating all but user namespace require running process with effective root or s
 
 `sudo ./a.out` or `sudo setcap 'cap_sys_admin+ep' ./a.out; ./a.out`
 
+## user namespace and other namespaces
+User namespace is only namespace that do not require to be created by privileged user, any user can create new user namespace. Critical part of understaning namespace security model is that each namespace belongs to one user namesapce. When actions is performed in given namespace eg. interface is added in net namespace or host modified in uts namespace - [kernel checks if this process is capable to perform this action based on process uid in reference to owning user namespace](https://elixir.bootlin.com/linux/v5.10/source/kernel/capability.c#L396).
+* [linux v5.10 utsname.h](https://elixir.bootlin.com/linux/v5.10/source/include/linux/utsname.h#L27)
+```c
+struct uts_namespace {
+	struct kref kref;
+	struct new_utsname name;
+	struct user_namespace *user_ns;
+  ...
+```
+* [linux v5.10 ipc_namespace.h](https://elixir.bootlin.com/linux/v5.10/source/include/linux/ipc_namespace.h#L68)
+```c
+struct ipc_namespace {
+	refcount_t	count;
+  ...
+	/* user_ns which owns the ipc ns */
+	struct user_namespace *user_ns;
+  ...
+```
+
 ## joining namespace / exec
 ```bash
 $ hostname main; uname -n
