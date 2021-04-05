@@ -12,3 +12,6 @@ $ cd /proc/<pid>/ns
 $ nsenter --uts=./uts --user=./user --mount=./mnt --net=./net --ipc=./ipc --pid=./pid
 
 ```
+
+# runc spec
+As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
