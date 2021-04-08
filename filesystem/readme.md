@@ -14,9 +14,11 @@ $ strace -p $(pidof containerd) -f 2>&1 | grep -e CLONE_NEW -e pivot_root -e ove
 [pid  2365] fchdir(8)                   = 0
 [pid  2365] pivot_root(".", ".")        = 0
 ...
+```
 
 # pivot_root() vs chroot()
 `pivot_root()` modify whole mnt namespace, when `chroot()` only process and its childrens. There are subtel (what/how?) bugs that would allow jailbreaks from `chroot()`.
+
 ```bash
 pivot_root newdir newdir/olddir
 umount /olddir
