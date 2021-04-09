@@ -27,3 +27,10 @@ pivot_root newdir newdir/olddir
 umount /olddir
 rmdir /olddir
 ```
+
+## dumping docker image fs
+Running docker image can be dumped using:
+```bash
+$ mkdir ./img
+$ docker export $(docker run -d alpine sleep 1) | tar -x  --directory ./img/ --
+```
