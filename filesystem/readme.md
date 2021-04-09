@@ -19,7 +19,7 @@ $ strace -p $(pidof containerd) -f 2>&1 | grep -e CLONE_NEW -e pivot_root -e ove
 ## pivot_root() vs chroot()
 `pivot_root()` modify whole mnt namespace, when `chroot()` only process and its childrens. There are subtel (what/how?) bugs that would allow jailbreaks from `chroot()`.
 
-`chroot()` - `set_fs_root(current->fs, &path);`
+`chroot()` - `set_fs_root(current->fs, &path);` it only updates `struct path root` for process. Current working directory allows access to old root, any link or mount from new root to old also.
 
 ```bash
 unshare --mount
