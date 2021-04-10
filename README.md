@@ -3,9 +3,11 @@
 ```bash
 # starting namespace
 $ unshare --fork --user --uts --pid --net --mount --ipc --map-root-user
-$ mount -t proc proc /proc
 $ # TODO set networking
-$ # TODO create copy of namespaces
+$ pivot_root ./rootfs ./rootfs/old
+$ cd /
+$ umount /old
+$ mount -t proc proc /proc
 
 # entering namespace
 $ cd /proc/<pid>/ns
