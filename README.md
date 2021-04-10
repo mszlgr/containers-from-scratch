@@ -33,6 +33,12 @@ execve("/usr/sbin/runc", ["runc", "run", "abc"], 0x7ffeeee3bc28 /* 35 vars */) =
 [pid  8478] mount("tmpfs", "/home/marek/rootfs/dev", "tmpfs", MS_NOSUID|MS_STRICTATIME, "mode=755,size=65536k") = 0
 [pid  8478] mount("devpts", "/home/marek/rootfs/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, "newinstance,ptmxmode=0666,mode=0"...) = 0
 ...
+[pid  8478] mount("/dev/null", "/home/marek/rootfs/dev/null", 0xc000124bba, MS_BIND, NULL) = 0
+[pid  8478] mount("/dev/random", "/home/marek/rootfs/dev/random", 0xc000124bc8, MS_BIND, NULL) = 0
+[pid  8478] mount("/dev/full", "/home/marek/rootfs/dev/full", 0xc000124be8, MS_BIND, NULL) = 0
+[pid  8478] mount("/dev/tty", "/home/marek/rootfs/dev/tty", 0xc000124c08, MS_BIND, NULL) = 0
+[pid  8478] mount("/dev/zero", "/home/marek/rootfs/dev/zero", 0xc000124c28, MS_BIND, NULL) = 0
+[pid  8478] mount("/dev/urandom", "/home/marek/rootfs/dev/urandom", 0xc000124c48, MS_BIND, NULL) = 0
 [pid  8478] pivot_root(".", ".")        = 0
 [pid  8478] mount("", ".", 0xc000124d44, MS_REC|MS_SLAVE, NULL) = 0
 ...
