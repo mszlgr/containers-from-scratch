@@ -15,3 +15,24 @@ $ nsenter --uts=./uts --user=./user --mount=./mnt --net=./net --ipc=./ipc --pid=
 
 # runc spec
 As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
+```bash
+$ mkdir -p ./rootfs && docker export $(docker create alpine) | tar -C rootfs -xf -
+$ strace -f runc run containername 2>&1 | grep -e pivot -e execv -e unshare -e mount\(
+execve("/usr/sbin/runc", ["runc", "run", "abc"], 0x7ffeeee3bc28 /* 35 vars */) = 0
+[pid  8476] execve("/proc/self/exe", ["runc", "init"], 0xc0000847d0 /* 8 vars */ <unfinished ...>
+[pid  8476] <... execve resumed>)       = 0
+[pid  8476] mount("/proc/self/exe", "/run/user/1000/runc/abc/runc.ram5n6", 0x8b4b69, MS_BIND, 0x8b4b69 <unfinished ...>
+[pid  8476] execveat(7, "", ["runc", "init"], 0xe3f2e0 /* 9 vars */, AT_EMPTY_PATH) = 0
+[pid  8477] unshare(CLONE_NEWUSER)      = 0
+[pid  8477] unshare(CLONE_NEWNS|CLONE_NEWUTS|CLONE_NEWIPC|CLONE_NEWPID) = 0
+[pid  8478] mount("", "/", 0xc00012444c, MS_REC|MS_SLAVE, NULL) = 0
+[pid  8478] mount("/home/marek/rootfs", "/home/marek/rootfs", 0xc0001248fa, MS_BIND|MS_REC, NULL) = 0
+[pid  8478] mount("proc", "/home/marek/rootfs/proc", "proc", 0, NULL) = 0
+[pid  8478] mount("tmpfs", "/home/marek/rootfs/dev", "tmpfs", MS_NOSUID|MS_STRICTATIME, "mode=755,size=65536k") = 0
+[pid  8478] mount("devpts", "/home/marek/rootfs/dev/pts", "devpts", MS_NOSUID|MS_NOEXEC, "newinstance,ptmxmode=0666,mode=0"...) = 0
+...
+[pid  8478] pivot_root(".", ".")        = 0
+[pid  8478] mount("", ".", 0xc000124d44, MS_REC|MS_SLAVE, NULL) = 0
+...
+[pid  8478] execve("/bin/sh", ["sh"], 0xc000120940 /* 3 vars */ <unfinished ...>
+```
