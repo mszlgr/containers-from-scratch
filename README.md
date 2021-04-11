@@ -23,7 +23,7 @@ $ nsenter --uts=./uts --user=./user --mount=./mnt --net=./net --ipc=./ipc --pid=
 ```
 
 # runc spec
-As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
+When calling `docker run alpine` docker cli sends request to containerd what manages images and prepares `rootfs` and `config.json` for `runc`. As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
 ```bash
 $ mkdir -p ./rootfs && docker export $(docker create alpine) | tar -C rootfs -xf -
 $ strace -f runc run containername 2>&1 | grep -e pivot -e execv -e unshare -e mount\( -e clone -e umount
