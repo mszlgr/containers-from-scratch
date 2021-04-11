@@ -1,6 +1,8 @@
 # file system
 Containers filesystem is isolated by mounting new `rootfs` and the calling `pivot_root` to new location. For optimization mounted root is usually read-only overlay fiels system which allows it to share most of data with other running containers on same host.
 
+If container needs persisten layer it calls `mount` after calling `pivot_root` - this way it have access to selected locations on host filesystem. `docker run -v /path/on/host:/path/in/container alpine` 
+
 ``` bash
 $ strace -p $(pidof containerd) -f 2>&1 | grep -e CLONE_NEW -e pivot_root -e overlay2 -e execve
 [pid  2859] execve("/usr/sbin/runc", ["runc", "--root", "/var/run/docker/runtime-runc/mob"..., "--log", "/run/containerd/io.containerd.ru"..., "--log-format", "json", "start", "a51ea5c27ebc154d5b1be1ee94349e45"...],
