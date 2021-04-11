@@ -1,5 +1,5 @@
 # file system
-
+Containers filesystem is isolated by mounting new `rootfs` and the calling `pivot_root` to new location. For optimization mounted root is usually read-only overlay fiels system which allows it to share most of data with other running containers on same host.
 
 ``` bash
 $ strace -p $(pidof containerd) -f 2>&1 | grep -e CLONE_NEW -e pivot_root -e overlay2 -e execve
