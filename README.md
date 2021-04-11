@@ -22,7 +22,14 @@ $ nsenter --uts=./uts --user=./user --mount=./mnt --net=./net --ipc=./ipc --pid=
 
 ```
 
-# runc spec
+## OCI specs
+OCI stands for `Open Container Initiative` and its target is to create operating-system-level virtualization specifications.
+* OCI Image Specification
+* OCI [Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/master/config.md) - runc is a example implementation
+Beside that there is **CRI** (Container Runtime Interface) used by kubelet or dockerd to comunicate with other runtimes and **CNI** ([Container Network Interface](https://github.com/containernetworking/cni)) that standardize container networking configuration.
+
+
+## runc spec
 When calling `docker run alpine` docker cli sends https request to dockerd. It then send grpc CRI request to containerd what manages images and prepares `rootfs` and `config.json` for `runc`. When using kubernetes sends grpc CRI request directly to its container runtime - eg. containerd. As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
 ```bash
 $ mkdir -p ./rootfs && docker export $(docker create alpine) | tar -C rootfs -xf -
@@ -52,4 +59,12 @@ execve("/usr/sbin/runc", ["runc", "run", "abc"], 0x7ffeeee3bc28 /* 35 vars */) =
 [pid  8478] umount2(".", MNT_DETACH)    = 0
 ...
 [pid  8478] execve("/bin/sh", ["sh"], 0xc000120940 /* 3 vars */ <unfinished ...>
+```
+
+runc recieves `rootfs` that is usually constructed up from layer using overlay fs or device mapper (but can be also just a static difectory) and  `config.json` that descrives runtime configuration and is build using:
+```
+ + engine config (docker configuration, gives defaults)
+ + image config (from manifest.json)
+ + user config (eg docker flags, applied as last)
+ => config.json 
 ```
