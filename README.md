@@ -1,4 +1,11 @@
 # containers-from-scratch
+Containers is a technology that allows isolating processes running on one operating system. This is achieved with:
+* namespaces to isolate processes
+* cgroups to manage resources like cpu and memory
+* capabilities and seccomp used to increase secuirty
+* overlay filesystems to optimize disk space utilization
+
+Tools like docker are creating and managing metadata about those to build containers on top of that.
 
 ```bash
 # starting namespace
