@@ -32,9 +32,9 @@ Docker layers can be taged on build `docker build . -t name:1.4` or at any time 
 
 
 ## Dockerfile
-**COPY** - creates layer directly using content being copied
-**ADD** - similar to COPY but works with remote directories and [unpacks files in fly](https://github.com/gliderlabs/docker-alpine/blob/c7368b846ee805b286d9034a39e0bbf40bc079b3/versions/library-3.5/Dockerfile)
-**RUN** - RUN echo > file (require shell) ["/path/bin"] only binary but not able to use. It runs a temporary container base on the last layer and saves the writable upper layer as a new one after running.```bash
+* **COPY** - creates layer directly using content being copied
+* **ADD** - similar to COPY but works with remote directories and [unpacks files in fly](https://github.com/gliderlabs/docker-alpine/blob/c7368b846ee805b286d9034a39e0bbf40bc079b3/versions/library-3.5/Dockerfile)
+* **RUN** - RUN echo > file (require shell) ["/path/bin"] only binary but not able to use. It runs a temporary container base on the last layer and saves the writable upper layer as a new one after running.```bash
 Step 3/4 : RUN ["/main"] 
  ---> Running in cdcd8a897d8b
 Hello!
