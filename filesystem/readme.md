@@ -32,10 +32,9 @@ rmdir /olddir
 ```bash
 mount -t overlay overlay -o lowerdir=/lower2:/lower1,upperdir=/upper,workdir=/work /merged
 ```
-lowerdir - base directories, layered in order, mounted as read-only. Last in list is lowest laye.r
-upperdir - top layer, if writeable changes are added here. File removal from lower layers is handled by adding char device with zero size.
-workdir - must be empty
-
+* **lowerdir** - base directories, layered in order, mounted as read-only. Last in list is lowest layer
+* **upperdir** - top layer, if writeable changes are added here. File removal from lower layers is handled by adding char device with zero size.
+* **workdir** - must be empty
 
 
 ## dumping docker image fs
