@@ -47,16 +47,17 @@ $ docker export $(docker run -d alpine sleep 1) | tar -x  --directory ./img/ --
  
 
 ## docker
-What files are injected:
+Image layers are managed by docker. Using layers it expose only rootfs to runc as a last layer. [RunC only finds mount given root fs](https://github.com/opencontainers/runc/blob/b23315bdd99c388f5d0dd3616188729c5a97484a/libcontainer/rootfs_linux.go#L749). In addition docker injects `/etc/hosts`, `/etc/hostname` and `/etc/resolv.conf`:
 ```bash
-ls /var/lib/docker/containers/<hash>/
-660724167c3fbf880c969e8c6e66c52b26baf586eb73901204da41ef23176597-json.log.  --> run date -> {"log":"Sat Apr 10 12:20:28 UTC 2021\n","stream":"stdout","time":"2021-04-10T12:20:28.327508287Z"}
+$ ls /var/lib/docker/containers/<hash>/
+660724167c3fbf880c969e8c6e66c52b26baf586eb73901204da41ef23176597-json.log
 config.v2.json
-hostname --> shorthash mount before execve
-hosts   --> 127.0.0.1 wiht shorthash mount before execve
-resolv.conf -> nameserver 8.8.8.8 mount before execve 
+hostname
+hosts
+resolv.conf
 mounts/
 ```
+Logfile contain whole container stdout. Hostname file contains short container hash id, hosts mapping for this hostname and localhost.
 
 ### docker mounts list:
 What container have mounted on startup:
@@ -72,9 +73,7 @@ cgroup on /sys/fs/cgroup/systemd type cgroup (ro,nosuid,nodev,noexec,relatime,xa
 ...
 ```
 
-
 ### docker (containerd/runc) strace:
-
 ```bash
 unshare(CLONE_NEWNS|CLONE_NEWUTS|CLONE_NEWIPC|CLONE_NEWNET|CLONE_NEWPID)
 clone(...)
