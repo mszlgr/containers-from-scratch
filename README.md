@@ -1,9 +1,9 @@
 # containers-from-scratch
 Containers is a technology that allows isolating processes running on one operating system. This is achieved with:
-* **namespaces** to isolate processes
-* **cgroups** to manage resources like cpu and memory
-* **capabilities** and **seccomp** used to increase secuirty
-* **overlay filesystems** to optimize disk space utilization
+* [**namespaces**](https://github.com/mszlgr/containers-from-scratch/tree/master/namespaces) to isolate processes
+* [**cgroups**](https://github.com/mszlgr/containers-from-scratch/tree/master/cgroups) to manage resources like cpu and memory
+* [**capabilities**](https://github.com/mszlgr/containers-from-scratch/tree/master/capabilities) and **seccomp** used to increase secuirty
+* [**overlay filesystems**](https://github.com/mszlgr/containers-from-scratch/tree/master/filesystem) to optimize disk space utilization
 
 Tools like docker are creating and managing metadata about those to build containers on top of that.
 
@@ -23,7 +23,7 @@ $ nsenter --uts=./uts --user=./user --mount=./mnt --net=./net --ipc=./ipc --pid=
 ```
 
 # runc spec
-When calling `docker run alpine` docker cli sends request to containerd what manages images and prepares `rootfs` and `config.json` for `runc`. As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
+When calling `docker run alpine` docker cli sends https request to dockerd. It then send grpc CRI request to containerd what manages images and prepares `rootfs` and `config.json` for `runc`. When using kubernetes sends grpc CRI request directly to its container runtime - eg. containerd. As an example of real world container runtime [`runc` spec can be checked](https://github.com/opencontainers/runc/blob/master/libcontainer/SPEC.md)
 ```bash
 $ mkdir -p ./rootfs && docker export $(docker create alpine) | tar -C rootfs -xf -
 $ strace -f runc run containername 2>&1 | grep -e pivot -e execv -e unshare -e mount\( -e clone -e umount
