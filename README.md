@@ -24,8 +24,9 @@ $ nsenter --uts=./uts --user=./user --mount=./mnt --net=./net --ipc=./ipc --pid=
 
 ## OCI specs
 OCI stands for `Open Container Initiative` and its target is to create operating-system-level virtualization specifications.
-* OCI Image Specification
-* OCI [Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/master/config.md) - runc is a example implementation
+* OCI [Image Specification](https://github.com/opencontainers/image-spec#readme)
+* OCI [Runtime Specification](https://github.com/opencontainers/runtime-spec#readme) - runc/libcontainer is a reference implementation
+
 Beside that there is **CRI** (Container Runtime Interface) used by kubelet or dockerd to comunicate with other runtimes and **CNI** ([Container Network Interface](https://github.com/containernetworking/cni)) that standardize container networking configuration.
 
 
