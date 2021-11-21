@@ -1,0 +1,5 @@
+1. Conteiner file system:
+`cd /proc/<pid>/root/`
+
+2. Container Networking:
+`nsenter -t <pid> --net`
